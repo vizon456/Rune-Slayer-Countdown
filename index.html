@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RUNE SLAYER Countdown</title>
+  <style>
+    body {
+      background-color: black;
+      color: limegreen;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    #countdown {
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>RUNE SLAYER</h1>
+  <div id="countdown">Loading...</div>
+
+  <script>
+    // Set the release time to 4:00 PM today
+    const releaseTime = new Date();
+    releaseTime.setHours(16, 0, 0, 0);
+    if (new Date() > releaseTime) releaseTime.setDate(releaseTime.getDate() + 1);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = releaseTime - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").textContent = "RUNE SLAYER is now LIVE!";
+        return;
+      }
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      const milliseconds = diff % 1000;
+      const nanoseconds = String(milliseconds * 1000000).padStart(9, '0');
+
+      document.getElementById("countdown").textContent =
+        `${hours.toString().padStart(2, '0')}h : ` +
+        `${minutes.toString().padStart(2, '0')}m : ` +
+        `${seconds.toString().padStart(2, '0')}s : ` +
+        `${nanoseconds.slice(0, 3)} ns`; // Display microseconds for speed
+
+      requestAnimationFrame(updateCountdown);
+    }
+
+    updateCountdown();
+  </script>
+</body>
+</html>
